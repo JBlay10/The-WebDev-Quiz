@@ -1,0 +1,33 @@
+:root {
+    --font: 'Montserrat';
+    --darkSmoke: #262626;
+    --sun: #FFCC33;
+    --red: #D0263D;
+    --Darkblue: #000080;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-size: 22px;
+    font-family: var(--font);
+    background-color: whitesmoke;
+}
+
+/*-------------- Top of the page --------------*/
+header {
+    color: var(--red);
+    height: 55px;
+    padding-top: 10px;
+    padding-left: 10px;
+    padding-right: 10px;
+    font-family: var(--font);
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    
+}
