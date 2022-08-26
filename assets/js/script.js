@@ -18,6 +18,8 @@ const submScEl = document.getElementById("submitScore"); // Results of quiz
 const finalScrEl = document.getElementById("userScore");
 const highScrEl = document.getElementsByClassName("highScore"); // Goats High Score button
 
+let timeLeft = 75;
+
 // Shuffle questions
 let shuffledQuestions, activeQuestionIndex;
 
@@ -75,74 +77,118 @@ const questions = [
     }
 ];
 
+const test = [ 
+        {
+            question: "Commonly used data types DO NOT include:",
+            choices: ["strings", "booleans", "alerts", "numbers"],
+            answer:  [
+                {text: "numbers", correct: false},
+                {text: "booleans", correct: false},
+                {text: "strings", correct: false},
+                {text: "alerts", correct: true}
+            ]
+        }
+    ];
 
 
 // Default settings
 let timerId;
 let score = 0;
-//let activeQuestionIndex = 0;
 
 // Timer function for when quiz begins (not working)
 
-function quizBegin() {
-    let timeLeft = 75;
-    timeLeftEl.textContent = timeLeft;
-    var timeChange = setInterval(() => {
-            timeLeft--;
-            timeLeftEl.textContent = timeLeft;
-            if (timeLeft === 0) {
-                clearInterval(timeChange);
-                quizOver();
-            }
-        },
-    1000);
-};
+// function quizBegin() {
+//     let timeLeft = 75;
+//     timeLeftEl.textContent = timeLeft;
+//     var timeChange = setInterval(() => {
+//             timeLeft--;
+//             timeLeftEl.textContent = timeLeft;
+//             if (timeLeft === 0) {
+//                 clearInterval(timeChange);
+//                 quizOver();
+//             }
+//         },
+//     1000);
+// };
 
 // Function to change questions Divs
-function changeDiv(act,next) {
-    document.getElementById(act).classList.add('hide');
-    document.getElementById(next).removeAttribute('class')
-};
+// function changeDiv(act,next) {
+//     document.getElementById(act).classList.add('hide');
+//     document.getElementById(next).removeAttribute('class')
+// };
+
+// function quizBegin() {
+//     changeDiv('begin', 'quizCTR');
+//     changeQuest();
+//     beginTimer();
+//     getQuestion();
+// }
 
 // FUnction for begin quiz
 
 beginBtnEl.addEventListener("click", quizBegin);
 
-function quizBegin() {
-    changeDiv('begin', 'quizCTR');
-    changeQuest();
-    beginTimer();
-    getQuestion();
-}
-
-function quizBegin() {
-    // this will hide the start screen
+function quizBegin(){
     var beginWindowEl = document.getElementById("beginQuiz");
     beginWindowEl.setAttribute("class", "hide");
-
-    // hide questions
-    questCtrEl.removeAttribute("class");
-
+    questCtrEl.classList.remove("hide");
+    shuffledQuestions = questions.sort(() => Math.random() - .5);
+    activeQuestionIndex = 0;
     timerId = setInterval(clockTick, 1000);
 
-    timeLeftEl.textContent = time;
-    
+    timeLeftEl.textContent = timer;
     getQuestion();
 }
 
 function getQuestion() {
-    // get question object from array
-    var activeQuestion = questions[activeQuestionIndex];
-
-    // Update title with current question
-   // var titleEl = document.getElementById("questions");
-   titleEl.textContent = activeQuestion.title;
-   // Change questions answers
-   multiChoiceEl.innerHTML = "";
-   // loop choices
-   activeQuestion.choices.forEach(function(choice, i) {
-    var choiceNode = document.createElement("button");
-    choiceNode.setAttribute("class", choice)
-   })
+    activeQuestion(shuffledQuestions[activeQuestionIndex]);
 }
+
+function activeQuestion(title) {
+    console.log(title);
+    titleEl.innerText = title.title; 
+    question.answer.forEach(answer => {})
+}
+
+function clockTick() {
+    console.log("here");
+    timeLeftEl.textContent = timeLeft;
+            if (timeLeft > 0) {
+            //     clearInterval(timeChange);
+            timeLeft--;
+            timeLeftEl.textContent = timeLeft;
+                
+            }
+            console.log(timeLeft);
+}
+// function quizBegin() {
+//     // this will hide the start screen
+//     var beginWindowEl = document.getElementById("beginQuiz");
+//     beginWindowEl.setAttribute("class", "hide");
+
+//     // hide questions
+//     questCtrEl.removeAttribute("class");
+
+//     timerId = setInterval(clockTick, 1000);
+
+//     timeLeftEl.textContent = time;
+    
+//     getQuestion();
+// }
+
+// function getQuestion() {
+//     // get question object from array
+//     var activeQuestion = questions[activeQuestionIndex];
+
+//     // Update title with current question
+//    // var titleEl = document.getElementById("questions");
+//    titleEl.textContent = activeQuestion.title;
+//    // Change questions answers
+//    multiChoiceEl.innerHTML = "";
+//    // loop choices
+//    activeQuestion.choices.forEach(function(choice, i) {
+//     var choiceNode = document.createElement("button");
+//     choiceNode.setAttribute("class", choice)
+//    })
+// }
 
