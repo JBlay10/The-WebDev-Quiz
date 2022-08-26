@@ -4,9 +4,14 @@
     --sun: #FFCC33;
     --red: #D0263D;
     --Darkblue: #000080;
+    --green: #CCF381;
+    --hue-neutral:  200;
+    --hue-wrong: 5;
+    --hue-correct: 145;
+    --hue-body: 250;
 }
 
-* {
+*, *::before, *::after {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
@@ -15,7 +20,22 @@
 body {
     font-size: 22px;
     font-family: var(--font);
-    background-color: whitesmoke;
+    --hue: var(--hue-body);
+    background-color: hsl(var(--hue), 100%, 82%);
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    width: 100vw;
+    height: 100vh;
+}
+
+body.correct {
+    --hue: var(--hue-correct);
+}
+
+body.wrong {
+    --hue: var(--hue-wrong);
 }
 
 /*-------------- Top of the page --------------*/
@@ -29,6 +49,8 @@ header {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
+    background-color: whitesmoke;
+    position: relative;
 }
 
 h1 {
@@ -53,30 +75,59 @@ h1 {
 /*-------------- Main quiz content --------------*/
 
 .btn {
+    --hue: var(--hue-neutral);
     border-radius: 8px;
-    background-color: var(--red);
-    box-shadow: inset 0 0 0 0 var(--red);
+    background-color: hsl(var(--hue), 100%, 50%);
+    box-shadow: inset 0 0 0 0 var(--hue);
     transition: ease-out .4s;
     cursor: pointer;
     font-weight: bolder;
-    margin-top: 17px;
-    padding: 13px 30px;
-    color: var(--sun);
-    border: 2px solid var(--red);
+    padding: 5px 10px;
+    color: var(--gree);
+    border: 2px solid hsl(var(--hue), 100%, 30%);
 }
 
 .btn:hover {
-    box-shadow: inset 150px 0 0 0 var(--sun);
-    color: var(--red);
-    border: 2px solid var(--sun);
+    box-shadow: inset 300px 0 0 0 hsl(var(--hue), 100%, 20%);
+    color: whitesmoke;
+    border: 2px solid hsl(var(--hue), 100%, 30%);
 }
 
-.quizCTR {
+.btn.correct {
+    --hue: var(--hue-correct);
+    color: black;
+}
+
+.btn.wrong {
+    --hue: var(--hue-wrong);
+    color: whitesmoke;
+}
+
+.btnGrid {
+    display: grid;
+    grid-template-columns: repeat(2, auto);
+    gap: 10px;
+    margin: 20px 0;
+}
+
+main {
     display: flex;
-    flex-wrap: wrap;
     flex-direction: column;
     justify-content: center;
-    margin-left: 25%;
-    margin-right: 25%;
-    margin-top: 50px;
+    align-items: center;
+    width: 100vw;
+    height: 75vh;
+}
+
+/* .quizCTR {
+    width: 800px;
+    max-width: 80%;
+    background-color: #fffaee;
+    border-radius: 5px;
+    padding: 10px;
+    box-shadow: 0 0 10px 2px;
+} */
+
+.hide {
+    display: none;
 }

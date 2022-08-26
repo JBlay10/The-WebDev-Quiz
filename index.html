@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" type="text/css" href="./assets/css/style.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/style.css">
+    <script defer src="assets/js/script.js"></script>
     <title>Coding quiz</title>
 </head>
 
@@ -23,23 +24,25 @@
     </header>
 
     <!--_______________ Quiz section _______________-->
-    <main class="quizCTR">
-        <div id="start">
+    <main class="quizCTR" id="quizCTR">
+        <!--  class="hide" -->
+        <div id="beginQuiz">
             <h2>The Web Developer Quiz</h2>
-            <button id="beginQuiz" class="btn">Begin Quiz</button>
+            <button id="begin" class="btn" onclick="beginQuiz()">Begin Quiz</button>
         </div>
-
         <!-- Questions for the quiz -->
-        <div class="hidden" id="questionCTR">
+        <div class="hide" id="questionCTR">
             <h2 id="questions"></h2>
-            <button id="answer1" class="btn" ></button>
-            <button id="answer2" class="btn" ></button>
-            <button id="answer3" class="btn" ></button>
-            <button id="answwer4" class="btn" ></button>
+            <div id="multipleChoice" class="btnGrid">
+                <button id="answer1" class="btn" onclick="changeQuest(event)">Answer 1</button>
+                <button id="answer2" class="btn" onclick="changeQuest(event)">Answer 2</button>
+                <button id="answer3" class="btn" onclick="changeQuest(event)">Answer 3</button>
+                <button id="answer4" class="btn" onclick="changeQuest(event)">Answer 4</button>
+            </div>
         </div>
 
         <!-- Final results of the quiz -->
-        <div id="scorePage" class="hidden">
+        <div id="scorePage" class="hide">
             <h2>End of Quiz</h2>
             <p>Your score is <span id="userScore">/100</span></p>
             <label>Enter your initials to join the Goats:</label>
@@ -47,7 +50,6 @@
             <button id="submitScore" class="btn" ></button>
         </div>
     </main>
-    <script src="./assets/js/script.js"></script>
 </body>
 </html>
 
