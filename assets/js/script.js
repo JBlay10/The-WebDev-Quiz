@@ -1,7 +1,7 @@
 // DOM Elements
 const multiChoiceEl = document.getElementById("multipleChoice"); 
 const beginBtnEl = document.getElementById("begin"); // Bengin Quiz button
-const timeLeftEl = document.getElementsByClassName("timer"); // Quiz timer 
+const timeLeftEl = document.getElementById("timer"); // Quiz timer 
 const nameEl = document.getElementById("initials"); // Initials for high score
 
 // Main div quiz container
@@ -77,52 +77,15 @@ const questions = [
     }
 ];
 
-const test = [ 
-        {
-            question: "Commonly used data types DO NOT include:",
-            choices: ["strings", "booleans", "alerts", "numbers"],
-            answer:  [
-                {text: "numbers", correct: false},
-                {text: "booleans", correct: false},
-                {text: "strings", correct: false},
-                {text: "alerts", correct: true}
-            ]
-        }
-    ];
-
-
 // Default settings
 let timerId;
 let score = 0;
-
-// Timer function for when quiz begins (not working)
-
-// function quizBegin() {
-//     let timeLeft = 75;
-//     timeLeftEl.textContent = timeLeft;
-//     var timeChange = setInterval(() => {
-//             timeLeft--;
-//             timeLeftEl.textContent = timeLeft;
-//             if (timeLeft === 0) {
-//                 clearInterval(timeChange);
-//                 quizOver();
-//             }
-//         },
-//     1000);
-// };
 
 // Function to change questions Divs
 // function changeDiv(act,next) {
 //     document.getElementById(act).classList.add('hide');
 //     document.getElementById(next).removeAttribute('class')
 // };
-
-// function quizBegin() {
-//     changeDiv('begin', 'quizCTR');
-//     changeQuest();
-//     beginTimer();
-//     getQuestion();
-// }
 
 // FUnction for begin quiz
 
@@ -140,16 +103,7 @@ function quizBegin(){
     getQuestion();
 }
 
-function getQuestion() {
-    activeQuestion(shuffledQuestions[activeQuestionIndex]);
-}
-
-function activeQuestion(title) {
-    console.log(title);
-    titleEl.innerText = title.title; 
-    question.answer.forEach(answer => {})
-}
-
+// Timer function for when quiz begins
 function clockTick() {
     console.log("here");
     timeLeftEl.textContent = timeLeft;
@@ -161,20 +115,43 @@ function clockTick() {
             }
             console.log(timeLeft);
 }
-// function quizBegin() {
-//     // this will hide the start screen
-//     var beginWindowEl = document.getElementById("beginQuiz");
-//     beginWindowEl.setAttribute("class", "hide");
 
-//     // hide questions
-//     questCtrEl.removeAttribute("class");
+// This 3 functions getQuestion, activeQuestion and resetState gets a random question from questions array
+function activeQuestion(title) {
+    console.log(title);
+    titleEl.innerText = title.title; 
+    title.answer.forEach(answer => {
+        const button = document.createElement("button");
+        button.innerText = answer.text
+        button.classList.add("btn")
+        if (answer.correct) {
+            button.dataset.correct = answer.correct;
+        }
+        button.addEventListener("click", selectAnswer);
+        multiChoiceEl.appendChild(button);
+    });
+}
 
-//     timerId = setInterval(clockTick, 1000);
+function resetState() {
+    nextButton.classList.add("hide")
+    while (multiChoiceEl.firstChild) {
+        multiChoiceEl.removeChild(multiChoiceEl.firstChild)
+    }
+}
 
-//     timeLeftEl.textContent = time;
-    
-//     getQuestion();
-// }
+function getQuestion() {
+    activeQuestion(shuffledQuestions[activeQuestionIndex]);
+// --------------------------Testing------------------------------
+    multiChoiceEl.innerHTML = "";
+
+    activeQuestion.choices.forEach(function(choice, i) {
+            var choiceNode = document.createElement("button");
+            choiceNode.setAttribute("class", choice)
+        }
+    )
+// ---------------------------------------------------------------
+    resetState();
+}
 
 // function getQuestion() {
 //     // get question object from array
