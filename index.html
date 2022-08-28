@@ -19,7 +19,7 @@
             <h1>Test your Knowledge</h1>
         </div>
         <div>
-            <p id="timer">Time Left: <span>75</span></p>
+            <p id="timer" class="hide">Time Left: <span>75</span></p>
         </div> 
     </header>
 
@@ -34,13 +34,15 @@
         <div class="hide" id="questionCTR">
             <div id="questions"></div>
             <div id="multipleChoice" class="btnGrid">
-                <button id="answer1" class="btn" onclick="changeQuest(event)">Answer 1</button>
-                <button id="answer2" class="btn" onclick="changeQuest(event)">Answer 2</button>
-                <button id="answer3" class="btn" onclick="changeQuest(event)">Answer 3</button>
-                <button id="answer4" class="btn" onclick="changeQuest(event)">Answer 4</button>
+                <button id="answer1" class="btn">Answer 1</button>
+                <button id="answer2" class="btn">Answer 2</button>
+                <button id="answer3" class="btn">Answer 3</button>
+                <button id="answer4" class="btn">Answer 4</button>
             </div>
         </div>
-
+        <div class="controls">
+            <button id="nextBtn" class="nextBtn btn hide">Next</button>
+        </div>
         <!-- Final results of the quiz -->
         <div id="scorePage" class="hide">
             <h2>End of Quiz</h2>

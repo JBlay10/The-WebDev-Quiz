@@ -3,31 +3,21 @@ const multiChoiceEl = document.getElementById("multipleChoice");
 const beginBtnEl = document.getElementById("begin"); // Bengin Quiz button
 const timeLeftEl = document.getElementById("timer"); // Quiz timer 
 const nameEl = document.getElementById("initials"); // Initials for high score
-
+const nextBtn = document.getElementById("nextBtn");
 // Main div quiz container
 var quizCTrEl = document.getElementById("quizCTR");
 // Answers 1 2 3 4 and Submit Score getting the Element from Html
 const titleEl = document.getElementById("questions");
 const questCtrEl = document.getElementById("questionCTR");
-const ans1BtnEl = document.getElementById("answer1");
-const ans2BtnEl = document.getElementById("answer2");
-const ans3BtnEl = document.getElementById("answer3");
-const ans4BtnEl = document.getElementById("answer4");
 const submScEl = document.getElementById("submitScore"); // Results of quiz
 // High Score and Final Score
 const finalScrEl = document.getElementById("userScore");
 const highScrEl = document.getElementsByClassName("highScore"); // Goats High Score button
 
-let timeLeft = 75;
-
-// Shuffle questions
-let shuffledQuestions, activeQuestionIndex;
-
 // Questions Array
 const questions = [ 
     {
         title: "Commonly used data types DO NOT include:",
-        choices: ["strings", "booleans", "alerts", "numbers"],
         answer:  [
             {text: "numbers", correct: false},
             {text: "booleans", correct: false},
@@ -37,7 +27,6 @@ const questions = [
     },
     {
         title: "_______ is the process of finding errors and fixing them within a program.",
-        choices: ["Compiling", "Executing", "Debbugging", "Scanning"],
         answer: [
             {text: "Executing", correct: false},
             {text: "Debbugging", correct: true},
@@ -47,7 +36,6 @@ const questions = [
     },
     {
         title: "A loop that never ends is referred to as a(n)_________.",
-        choices: ["While loop", "Infinite loop", "Recursive loop", "for loop"],
         answer: [
             {text: "for loop", correct: false},
             {text: "Recursive loop", correct: false},
@@ -57,7 +45,6 @@ const questions = [
     },
     {
         title: "MJ has just constructed her first for loop within the Java language. \nWhich of the following is not a required part of a for loop?",
-        choices: ["Condition", "Increment", "Initialization", "Variable"],
         answer: [
             {text: "Variable", correct: true},
             {text: "Increment", correct: false},
@@ -67,12 +54,11 @@ const questions = [
     },
     {
         title: "CSS stands for -",
-        choices: ["Cascade style sheets", "Color style sheets", "Cascading style sheets", "C plus plus"],
         answer: [
             {text: "Cascade style sheets", correct: false},
             {text: "Color style sheets", correct: false},
-            {text: "Cascading style sheets", correct: false},
-            {text: "C plus plus", correct: true}
+            {text: "Cascading style sheets", correct: true},
+            {text: "C plus plus", correct: false}
         ]
     }
 ];
@@ -80,6 +66,11 @@ const questions = [
 // Default settings
 let timerId;
 let score = 0;
+let timeLeft = 75;
+
+// Shuffle questions
+let shuffledQuestions, activeQuestionIndex;
+
 
 // Function to change questions Divs
 // function changeDiv(act,next) {
@@ -95,6 +86,7 @@ function quizBegin(){
     var beginWindowEl = document.getElementById("beginQuiz");
     beginWindowEl.setAttribute("class", "hide");
     questCtrEl.classList.remove("hide");
+    timeLeftEl.classList.remove("hide");
     shuffledQuestions = questions.sort(() => Math.random() - .5);
     activeQuestionIndex = 0;
     timerId = setInterval(clockTick, 1000);
@@ -117,55 +109,53 @@ function clockTick() {
 }
 
 // This 3 functions getQuestion, activeQuestion and resetState gets a random question from questions array
-function activeQuestion(title) {
-    console.log(title);
-    titleEl.innerText = title.title; 
-    title.answer.forEach(answer => {
-        const button = document.createElement("button");
+function activeQuestion(question) {
+    titleEl.innerText = question.title
+    question.answer.forEach(answer => {
+        const button = document.createElement("button")
         button.innerText = answer.text
         button.classList.add("btn")
         if (answer.correct) {
-            button.dataset.correct = answer.correct;
+            button.dataset.correct = answer.correct
         }
-        button.addEventListener("click", selectAnswer);
+        button.addEventListener("click", selectAnswer)
         multiChoiceEl.appendChild(button);
     });
 }
 
+function selectAnswer(e) {
+    const selectedBtn = e.target
+    const correct = selectedBtn.dataset.correct
+    addClassRW(documen.body, correct)
+    Array.from(multiChoiceEl.children).forEach(button => {
+        addClassRW(button, button.dataset.correct)
+    })
+}
+
 function resetState() {
-    nextButton.classList.add("hide")
+    nextBtn.classList.add("hide")
     while (multiChoiceEl.firstChild) {
         multiChoiceEl.removeChild(multiChoiceEl.firstChild)
     }
 }
 
 function getQuestion() {
-    activeQuestion(shuffledQuestions[activeQuestionIndex]);
-// --------------------------Testing------------------------------
-    multiChoiceEl.innerHTML = "";
-
-    activeQuestion.choices.forEach(function(choice, i) {
-            var choiceNode = document.createElement("button");
-            choiceNode.setAttribute("class", choice)
-        }
-    )
-// ---------------------------------------------------------------
-    resetState();
+    resetState()
+    activeQuestion(shuffledQuestions[activeQuestionIndex])
 }
 
-// function getQuestion() {
-//     // get question object from array
-//     var activeQuestion = questions[activeQuestionIndex];
+// Function to check answer right or wrong (Not working properly)
+function addClassRW(element, correct) {
+    removeClassRW(element)
+    if (correct) {
+        element.classList.add("correct")
+    } else {
+        element.classList.add("wrong")
+    }
+}
 
-//     // Update title with current question
-//    // var titleEl = document.getElementById("questions");
-//    titleEl.textContent = activeQuestion.title;
-//    // Change questions answers
-//    multiChoiceEl.innerHTML = "";
-//    // loop choices
-//    activeQuestion.choices.forEach(function(choice, i) {
-//     var choiceNode = document.createElement("button");
-//     choiceNode.setAttribute("class", choice)
-//    })
-// }
+function removeClassRW(element) {
+    element.classList.remove("correct")
+    element.classList.remove("wrong")
+}
 

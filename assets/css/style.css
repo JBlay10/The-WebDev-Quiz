@@ -122,3 +122,9 @@ main {
 .hide {
     display: none;
 }
+
+.controls {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
