@@ -10,6 +10,7 @@ var quizCTrEl = document.getElementById("quizCTR");
 const titleEl = document.getElementById("questions");
 const questCtrEl = document.getElementById("questionCTR");
 const submScEl = document.getElementById("submitScore"); // Results of quiz
+const scorePageEl = document.getElementById("scorePage");
 // High Score and Final Score
 const finalScrEl = document.getElementById("userScore");
 const highScrEl = document.getElementsByClassName("highScore"); // Goats High Score button
@@ -65,22 +66,22 @@ const questions = [
 
 // Default settings
 let timerId;
-let score = 0;
-let timeLeft = 75;
+let score;
+let timeLeft;
+timerId;
+score = 0;
+timeLeft = 5; // Testing chhange back to 75
 
 // Shuffle questions
 let shuffledQuestions, activeQuestionIndex;
 
-
-// Function to change questions Divs
-// function changeDiv(act,next) {
-//     document.getElementById(act).classList.add('hide');
-//     document.getElementById(next).removeAttribute('class')
-// };
-
 // FUnction for begin quiz
 
 beginBtnEl.addEventListener("click", quizBegin);
+nextBtn.addEventListener("click", () => {
+    activeQuestionIndex++
+    getQuestion()
+})
 
 function quizBegin(){
     var beginWindowEl = document.getElementById("beginQuiz");
@@ -89,23 +90,25 @@ function quizBegin(){
     timeLeftEl.classList.remove("hide");
     shuffledQuestions = questions.sort(() => Math.random() - .5);
     activeQuestionIndex = 0;
-    timerId = setInterval(clockTick, 1000);
+    // timerId = setInterval(clockTick, 1000);
 
     timeLeftEl.textContent = timer;
     getQuestion();
+    clockTick();
 }
 
 // Timer function for when quiz begins
 function clockTick() {
     console.log("here");
-    timeLeftEl.textContent = timeLeft;
-            if (timeLeft > 0) {
-            //     clearInterval(timeChange);
-            timeLeft--;
-            timeLeftEl.textContent = timeLeft;
-                
-            }
-            console.log(timeLeft);
+    timerId = setInterval(function () {
+        timeLeft--;
+        timeLeftEl.textContent = timeLeft;
+        if (timeLeft === 0) {
+            nextBtn.classList.add("hide")
+            quizEnd()
+        }
+    }, 1000);
+    console.log(timeLeft);
 }
 
 // This 3 functions getQuestion, activeQuestion and resetState gets a random question from questions array
@@ -123,16 +126,25 @@ function activeQuestion(question) {
     });
 }
 
+// This function is triggered after user selects a answer
 function selectAnswer(e) {
     const selectedBtn = e.target
     const correct = selectedBtn.dataset.correct
-    addClassRW(documen.body, correct)
+    addClassRW(document.body, correct)
     Array.from(multiChoiceEl.children).forEach(button => {
         addClassRW(button, button.dataset.correct)
     })
+    if (shuffledQuestions.length > activeQuestionIndex + 1) {
+        nextBtn.classList.remove("hide")
+    } else {
+        nextBtn.classList.remove("hide")
+    }
+
 }
 
+// this function resets body (Quiz)
 function resetState() {
+    removeClassRW(document.body)
     nextBtn.classList.add("hide")
     while (multiChoiceEl.firstChild) {
         multiChoiceEl.removeChild(multiChoiceEl.firstChild)
@@ -144,18 +156,37 @@ function getQuestion() {
     activeQuestion(shuffledQuestions[activeQuestionIndex])
 }
 
-// Function to check answer right or wrong (Not working properly)
-function addClassRW(element, correct) {
-    removeClassRW(element)
+// Function to check answer right or wrong, and Deducts time
+function addClassRW(userInput, correct) {
+    removeClassRW(userInput)
     if (correct) {
-        element.classList.add("correct")
+        userInput.classList.add("correct")
     } else {
-        element.classList.add("wrong")
+        // if (this.value !== questions[activeQuestionIndex].answer) {
+        //     // penalize time
+        //     time -= 15;
+        
+        //     if (time < 0) {
+        //       time = 0;
+        //     }
+        // }
+        userInput.classList.add("wrong")
     }
 }
 
-function removeClassRW(element) {
-    element.classList.remove("correct")
-    element.classList.remove("wrong")
+function removeClassRW(userInput) {
+    userInput.classList.remove("correct")
+    userInput.classList.remove("wrong")
 }
 
+function quizEnd() {
+    // stops time if reaches 0 or quiz Ends
+    clearInterval(timerId)
+
+    //Hides questions section
+    questCtrEl.classList.add("hide")
+
+    // Removes hidden score Page
+    scorePageEl.classList.remove("hide")
+
+}

@@ -18,7 +18,6 @@
 }
 
 body {
-    font-size: 22px;
     font-family: var(--font);
     --hue: var(--hue-body);
     background-color: hsl(var(--hue), 100%, 82%);
@@ -88,7 +87,7 @@ h1 {
 }
 
 .btn:hover {
-    box-shadow: inset 300px 0 0 0 hsl(var(--hue), 100%, 20%);
+    box-shadow: inset 350px 0 0 0 hsl(var(--hue), 100%, 20%);
     color: whitesmoke;
     border: 2px solid hsl(var(--hue), 100%, 30%);
 }
@@ -124,6 +123,16 @@ main {
 }
 
 .controls {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+h2 {
+    text-align: center;
+}
+
+.beginBtn {
     display: flex;
     justify-content: center;
     align-items: center;
